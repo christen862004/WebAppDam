@@ -1,9 +1,11 @@
-﻿<table class="table table-bordered table-hover">
+﻿@model List<Student>
+<table class="table table-bordered table-hover">
     <tr>
         <th>Id</th>
         <th>Name</th>
         <th>Image</th>
     </tr>
+    
     @foreach (Student item in Model)
     {
         <tr>
