@@ -1,0 +1,44 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "Details";//????????????  Who
+}
+<!--Get ViewData-->
+<h1>Details</h1>
+<h2>@ViewBag.test</h2>
+<h2>@ViewData["test"]</h2>
+
+<hr />
+<h2 style="background-color:@ViewData["Color"]">@Model.Name</h2>
+<h2 style="background-color:@ViewBag.Color">@Model.Name</h2>
+<hr />
+
+
+
+<h3>MEssage : @ViewData["Msg"] </h3>
+<h3>MEssage : @ViewBag.Msg </h3>
+<hr />
+
+<h3>Temperature : @(int.Parse(ViewData["Temp"].ToString())+10)</h3>
+<h3>Temperature : @(ViewBag.Temp+10)</h3>
+<hr />
+
+<select class="form form-control">
+    @foreach (var item in (List<string>)ViewData["Branches"])
+    {
+        <option>@item</option>
+    }
+</select>
+<select class="form form-control">
+    @foreach (var item in ViewBag.Branches)
+    {
+        <option>@item</option>
+    }
+</select>
+<!--ViewData DisAdv (Problem)
+        1) Magic String "'key'"
+        2) Type Casting (unboxing)
+    Scop One Request from Action to View
+    ViewBag Problem
+        1) Magic String
+        2) Exception Runtime
+-->

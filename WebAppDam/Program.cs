@@ -10,6 +10,9 @@ namespace WebAppDam
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSession(sessionOption => {
+                sessionOption.IdleTimeout = TimeSpan.FromMinutes(30);
+            });//
             //build
             var app = builder.Build();
             #region Custom Middleware
@@ -42,8 +45,9 @@ namespace WebAppDam
             app.UseStaticFiles();//Req serach for req in wwwroot
 
             app.UseRouting();//Map Contoller + Action
-
             
+            app.UseSession();
+
             app.UseAuthorization();
 
             app.MapControllerRoute(
