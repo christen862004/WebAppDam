@@ -4,8 +4,24 @@ namespace WebAppDam.Controllers
 {
     public class StateController : Controller
     {
+        //state/m1
+        [HttpGet]
+        public IActionResult m1()
+        {
+            return Content("m1");
+        }
+        [HttpPost]
+        public IActionResult m1(int id)
+        {
+            return Content("m1 Overload");
+        }
+
+
+
+
         public IActionResult SetSession(string name,int age)
         {
+
             //logic
             //State
             HttpContext.Session.SetString("Name", name);

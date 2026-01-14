@@ -18,6 +18,39 @@ namespace WebAppDam.Controllers
             return View("Index",Depts);//List<department>
         }
 
+        #region New Departemnt
+        public IActionResult New()
+        {
+            return View("New");//Model = Null
+        }
+        //Department/SaveNew?Name=&ManagerName=
+        //public IActionResult SaveNew(string Name,string ManagerName)
+
+        //Action by defual handel Get|POST Req
+        [HttpPost]
+        public IActionResult SaveNew(Department DeptFromReq)//Create object
+        {
+            //if(this.Request.Method=="POST"){}
+           //valiadtion server side C#
+           if(DeptFromReq.Name != null) {
+                //save db
+                context.Departments.Add(DeptFromReq);
+                context.SaveChanges();
+                
+                //go to another action
+                return RedirectToAction("Index", "Department");
+            }
+            //opne the same view
+            return View("New", DeptFromReq);
+            //View New
+            //Model Department
+        }
+        #endregion
+
+
+
+
+
         public IActionResult Details(int id)
         {
             //Extra Info

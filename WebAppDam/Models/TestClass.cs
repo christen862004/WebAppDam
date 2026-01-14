@@ -43,13 +43,29 @@ namespace WebAppDam.Models
     }
     public class Child2 : RazorPage<Student>//Close type
     {
-
+        public string NAme { get; set; }
     }
 
     public class TestClass
     {
         public void test()
         {
+            Child2 child=null;
+            //if (child != null)
+            //{
+            //    string n = child.NAme;
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Child 1");
+            //}
+            string n = child?.NAme;
+
+
+
+
+
+
             MyController c= new MyController();
             c.Data = 10;
 
