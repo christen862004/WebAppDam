@@ -1,0 +1,36 @@
+﻿@model Employee
+@{
+    //Explicit
+    SelectList options = new SelectList(ViewBag.DeptList,"Id","Name");
+    ViewData["Title"] = "New";
+}
+
+<h1>New</h1>
+<!--Form Tag Helper create hidden filed wieh reserved name value generate-->
+<form method="post" asp-action="SaveNew" asp-controller="Employee">
+    @* asp-route-id="@Model?.Id" *@
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form form-control"/>
+    </div>
+    <div>
+        <label asp-for="Salary"></label>
+        <input asp-for="Salary" class="form form-control" />
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form form-control" />
+    </div>
+    <div>
+        <label asp-for="ImageUrl"></label>
+        <input asp-for="ImageUrl" class="form form-control" />
+    </div>
+    <div>
+        <label asp-for="DepartmentId"></label>
+        <select asp-for="DepartmentId" class="form form-control" asp-items="options">
+            <option value="0" >--Select Department--</option>
+        </select>
+    </div>
+    <input type="submit" value="Create" class="btn btn-success" />
+</form>
+<a asp-action="Index" asp-controller="Employee">Back To List</a>

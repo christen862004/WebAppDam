@@ -7,26 +7,41 @@
 <!--/Employee/SaveEdit?Name=&Salary=&id-->
 <form action="/Employee/SaveEdit/@Model.Id" method="post">
     @* <input type="hidden" name="Id" value="@Model.Id" /> *@
+
+    <div>
+        <!--Pure HTML-->
+        @* <label>ImageUrl</label> *@
+        @*  <input class="form form-control" type="text" id="ImageUrl" name="ImageUrl" value="@Model.ImageUrl" /> *@
+        <!--Pure C#-->
+        @* @Html.TextBox("ImageUrl") *@
+        @* @Html.LabelFor(e=>e.ImageUrl) *@
+        @* @Html.TextBoxFor(e => e.ImageUrl, new { style = "color:red",@class="form form-control"}) *@
+        @* @Html.EditorFor(e=>e.ImageUrl) *@
+        <!--Tag Helper-->
+        <label asp-for="ImageUrl"></label>
+         <input class="form form-control" asp-for="ImageUrl" />
+    </div>
+
+
     <div>
         <label>Name</label>
         <input class="form form-control" type="text" id="Name" name="Name" value="@Model.Name" />
     </div>
     <div>
         <label>Salary</label>
-        <input class="form form-control" type="number" id="Salary" name="Salary" value="@Model.Salary" />
+        @* <input class="form form-control" type="number" id="Salary" name="Salary" value="@Model.Salary" /> *@
+        @Html.EditorFor(e=>e.Salary)
     </div>
-    <div>
-        <label>ImageUrl</label>
-        <input class="form form-control" type="text" id="ImageUrl" name="ImageUrl" value="@Model.ImageUrl" />
-    </div>
+   
     <div>
         <label>Email</label>
-        <input class="form form-control" type="Email" id="Email" name="Email" value="@Model.Email" />
+        @* <input class="form form-control" type="Email" id="Email" name="Email" value="@Model.Email" /> *@
+        @Html.EditorFor(e=>e.Email)
     </div>
     <div>
         <label>Department</label>
         @* <input class="form form-control" type="number" id="DepartmentId" name="DepartmentId" value="@Model.DepartmentId" /> *@
-        <select class="form form-control" id="DepartmentId" name="DepartmentId">
+        <select class="form form-control" id="DepartmentId" name="DepartmentId" >
             @foreach (Department deptItem in Model.DeptList)
             {
                 if(Model.DepartmentId==deptItem.Id){
@@ -42,4 +57,13 @@
     </div>
     <input type="submit" value="Save" class="btn btn-dark"/>
 </form>
-<a href="/Employee/Index">Back To List</a>
+<a href="/Employee/Index">Back To List</a><br />
+@Html.ActionLink("Back To List","Index","Employee",null,new{@class="btn btn-success"})<br />
+<a asp-action="Index" asp-controller="Employee" class="btn btn-success">Back To List</a>
+<br />
+
+<hr />
+<a href="/Employee/Details/1?name=ahmed">Details</a><br />
+@Html.ActionLink("Emp Details","Details","Employee",new {id=Model.Id,name=Model.Name})<br />
+<a asp-action="Details" asp-controller="Employee" asp-route-id="@Model.Id" asp-route-name="@Model.Name">Details</a>
+<br />

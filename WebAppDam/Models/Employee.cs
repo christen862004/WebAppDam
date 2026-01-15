@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAppDam.Models
 {
@@ -11,6 +12,7 @@ namespace WebAppDam.Models
         public string? Email { get; set; }
         
         [ForeignKey("Department")]
+        [Display(Name="Department")]
         public int DepartmentId { get; set; }
         
         public Department Department { get; set; }

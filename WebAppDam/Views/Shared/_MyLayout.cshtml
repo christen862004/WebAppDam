@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div style="height:150px;background-color:burlywood;font-size:30px;text-align:center">Header
+        <div style="background-color:aqua;margin:10px">
+            @RenderSection("HeadSection",false)<!--optional Section-->
+        </div>
+    </div>
+    <div style="background-color:aqua">
+        @RenderBody()
+    </div>
+    <div style="height:100px;background-color:burlywood;font-size:20px;text-align:center">Footer
+        <div style="background-color:aqua;margin:10px">
+            @RenderSection("FooterSection")<!--Reuired Section-->
+        </div>
+    </div>
+
+</body>
+</html>
