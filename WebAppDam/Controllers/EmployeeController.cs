@@ -11,6 +11,17 @@ namespace WebAppDam.Controllers
             List<Employee> employees = context.Employees.ToList(); ;
             return View("Index",employees);
         }
+
+        #region Valiadtion REmote   
+
+        public IActionResult CheckSalary(int Salary,string Name)
+        {
+            if (Salary > 9000)
+                return Json(true);//valia
+            return Json(false);//invali
+        }
+        #endregion
+
         #region NEw Using Tage
         [HttpGet]
         public IActionResult New()
@@ -23,11 +34,18 @@ namespace WebAppDam.Controllers
         [ValidateAntiForgeryToken]//check req.formData["__Verifi...."]
         public IActionResult SaveNew(Employee EmpFromReq)
         {
-            if(EmpFromReq.Name!=null && EmpFromReq.Salary > 8000)
+            //Server Side
+            if(ModelState.IsValid)
             {
-                context.Employees.Add(EmpFromReq); 
-                context.SaveChanges();
-                return RedirectToAction("Index", "Employee");
+                try
+                {
+                    context.Employees.Add(EmpFromReq);
+                    context.SaveChanges();
+                    return RedirectToAction("Index", "Employee");
+                }catch(Exception ex)//sl exception
+                {
+                    ModelState.AddModelError("exception", ex.InnerException.Message);
+                }
             }
             ViewData["DeptList"] = context.Departments.ToList();
             return View("New",EmpFromReq);

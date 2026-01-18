@@ -9,28 +9,43 @@
 <!--Form Tag Helper create hidden filed wieh reserved name value generate-->
 <form method="post" asp-action="SaveNew" asp-controller="Employee">
     @* asp-route-id="@Model?.Id" *@
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div>
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span> <!--at data annout. att ==> html attr-->
     </div>
     <div>
         <label asp-for="Salary"></label>
         <input asp-for="Salary" class="form form-control" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+
     </div>
     <div>
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
     </div>
     <div>
         <label asp-for="ImageUrl"></label>
         <input asp-for="ImageUrl" class="form form-control" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+
     </div>
     <div>
         <label asp-for="DepartmentId"></label>
         <select asp-for="DepartmentId" class="form form-control" asp-items="options">
             <option value="0" >--Select Department--</option>
         </select>
+        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+
     </div>
     <input type="submit" value="Create" class="btn btn-success" />
 </form>
 <a asp-action="Index" asp-controller="Employee">Back To List</a>
+<!--Valiadtion Client Side-->
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script> <!--layout-->
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script> 
