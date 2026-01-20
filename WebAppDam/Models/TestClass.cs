@@ -2,6 +2,70 @@
 
 namespace WebAppDam.Models
 {
+    interface ISort
+    {
+        void Sort(int[] arr);
+    }
+    //BL
+    class BubbleSort:ISort
+    {
+        public void Sort(int[] arr)
+        {
+            //logic using BS
+        }
+    }
+    class SelectioSort:ISort { 
+        public void Sort(int[] arr)
+        {
+
+        }
+    }
+    class ChrisSort : ISort
+    {
+        public void Sort(int[] arr)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    //    class use class :depenecny
+    //IOC : tigh couple ==> lossly couple
+    //DIP : dont create ,ask 
+    class MyList
+    {
+        int[] arr;
+        ISort listSort;
+        public MyList(ISort sortAl)//ask constructor 
+        {
+            arr = new int[10];
+            listSort =sortAl;// new SelectioSort();
+        }
+        public void Order()
+        {
+            listSort.Sort(arr);//order using BBSort
+        }
+    }
+    class Test
+    {
+        public void fun1()
+        {
+            MyList l11 = new MyList(new BubbleSort());
+            l11.Order();//
+            MyList l12 = new MyList(new SelectioSort());
+            MyList l13 = new MyList(new ChrisSort());
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     class MyController
     {
         private object _data;

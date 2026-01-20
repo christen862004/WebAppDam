@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using WebAppDam.Models;
+using WebAppDam.Repository;
+
 namespace WebAppDam
 {
     public class Program
@@ -9,10 +13,33 @@ namespace WebAppDam
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            //1) Built in service ,already register
+            //2) Built in service ,need to  register
+
             builder.Services.AddControllersWithViews();
             builder.Services.AddSession(sessionOption => {
                 sessionOption.IdleTimeout = TimeSpan.FromMinutes(30);
             });//
+
+
+
+            builder.Services.AddDbContext<ITIContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });//REgsiter DbContextOption ,ITIContext paremeter Constructor
+
+            
+            
+            
+            
+            
+            
+            
+            
+            //3) cutom Service and need to register
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();//register
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();//register
+            builder.Services.AddScoped<ITestRepository, TestRepository>();//register
             //build
             var app = builder.Build();
             #region Custom Middleware

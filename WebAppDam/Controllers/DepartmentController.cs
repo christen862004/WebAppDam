@@ -1,20 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAppDam.Models;
+using WebAppDam.Repository;
 //using WebAppDam.ViewModels;
 
 namespace WebAppDam.Controllers
 {
     public class DepartmentController : Controller
     {
-        ITIContext context = new();
-        public DepartmentController()
+        // ITIContext context = new();
+        IDepartmentRepository departmentRepo;
+        public DepartmentController(IDepartmentRepository _deptRepo)//ask Inject
         {
-            
+            departmentRepo =_deptRepo;// new DepartmentRepository();//depence
         }
         //Department/index
         public IActionResult Index()
         {
-            List<Department> Depts= context.Departments.ToList();//Day8
+            
+            List<Department> Depts= departmentRepo.GetAll();//Day8
             return View("Index",Depts);//List<department>
         }
 
@@ -34,9 +37,8 @@ namespace WebAppDam.Controllers
            //valiadtion server side C#
            if(DeptFromReq.Name != null) {
                 //save db
-                context.Departments.Add(DeptFromReq);
-                context.SaveChanges();
-                
+                departmentRepo.Add(DeptFromReq);
+                departmentRepo.Save();
                 //go to another action
                 return RedirectToAction("Index", "Department");
             }
@@ -66,7 +68,7 @@ namespace WebAppDam.Controllers
             ViewBag.test = "hhhhhhh";//ViewData["test"]="hhhhhh";
             ViewBag.Color = "Blue";  //ViewData["Color"]="" override
 
-            Department deptModel = context.Departments.FirstOrDefault(d => d.Id == id);
+            Department deptModel = departmentRepo.GetById(id);
             //1
             return View("Details", deptModel);
             //go View ,Mode Department,ViewData 
@@ -79,7 +81,7 @@ namespace WebAppDam.Controllers
             int temp = 10;
             List<string> branches=new List<string>() { "Alx","Smart","New Capital"};
             string Color = "red";
-            Department deptModel = context.Departments.FirstOrDefault(d => d.Id == id);
+            Department deptModel = departmentRepo.GetById(id);
 
             //Decalre VM
             DeptNameWithBranchesColorMsgTempViewModel deptVM = new();

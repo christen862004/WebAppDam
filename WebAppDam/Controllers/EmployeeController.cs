@@ -1,14 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAppDam.Models;
+using WebAppDam.Repository;
 
 namespace WebAppDam.Controllers
 {
     public class EmployeeController : Controller
     {
-        ITIContext context = new ITIContext();
+        // ITIContext context = new ITIContext();
+        IEmployeeRepository empRepo;
+        IDepartmentRepository departmentRepo;
+        public EmployeeController(IEmployeeRepository _EmpRepo, IDepartmentRepository _deptRepo)//Primary Contrsutor
+        {
+            empRepo = _EmpRepo;// new EmployeeRepository();
+            departmentRepo = _deptRepo;// new DepartmentRepository();
+        }
         public IActionResult Index()
         {
-            List<Employee> employees = context.Employees.ToList(); ;
+            List<Employee> employees = empRepo.GetAll();
             return View("Index",employees);
         }
 
@@ -26,7 +34,7 @@ namespace WebAppDam.Controllers
         [HttpGet]
         public IActionResult New()
         {
-            ViewData["DeptList"] = context.Departments.ToList();//List<Department>
+            ViewData["DeptList"] = departmentRepo.GetAll();//List<Department>
             return View("New");
         }
 
@@ -39,15 +47,15 @@ namespace WebAppDam.Controllers
             {
                 try
                 {
-                    context.Employees.Add(EmpFromReq);
-                    context.SaveChanges();
+                    empRepo.Add(EmpFromReq);
+                    empRepo.Save();
                     return RedirectToAction("Index", "Employee");
                 }catch(Exception ex)//sl exception
                 {
                     ModelState.AddModelError("exception", ex.InnerException.Message);
                 }
             }
-            ViewData["DeptList"] = context.Departments.ToList();
+            ViewData["DeptList"] = departmentRepo.GetAll();
             return View("New",EmpFromReq);
         }
         #endregion
@@ -63,8 +71,8 @@ namespace WebAppDam.Controllers
         public IActionResult Edit(int id)
         {
             //Collect
-            Employee EmpModel= context.Employees.FirstOrDefault(e=>e.Id== id);
-            List<Department> DEptList = context.Departments.ToList();
+            Employee EmpModel= empRepo.GetById(id);
+            List<Department> DEptList = departmentRepo.GetAll();
             if (EmpModel != null)
             {
                 
@@ -91,19 +99,20 @@ namespace WebAppDam.Controllers
             if (EmpFromReq.Name != null)
             {
                 //get old ref
-                Employee empFromDB = context.Employees.FirstOrDefault(e => e.Id == EmpFromReq.Id);
-                //set
-                empFromDB.Name = EmpFromReq.Name;
-                empFromDB.Salary = EmpFromReq.Salary;
-                empFromDB.ImageUrl = EmpFromReq.ImageUrl;
-                empFromDB.Email = EmpFromReq.Email;
-                empFromDB.DepartmentId = EmpFromReq.DepartmentId;
-                context.SaveChanges();
+                Employee emp = new();
+                emp.Id=EmpFromReq.Id;
+                emp.Name = EmpFromReq.Name;
+                emp.Salary = EmpFromReq.Salary;
+                emp.ImageUrl = EmpFromReq.ImageUrl;
+                emp.Email = EmpFromReq.Email;
+                emp.DepartmentId = EmpFromReq.DepartmentId;
+                empRepo.Edit(emp);
+                empRepo.Save();
                 //return index
                 return RedirectToAction("Index", "Employee");
             }
             //ViewModel
-            EmpFromReq.DeptList = context.Departments.ToList();
+            EmpFromReq.DeptList = departmentRepo.GetAll();
             return View("Edit", EmpFromReq);
         }
         #endregion

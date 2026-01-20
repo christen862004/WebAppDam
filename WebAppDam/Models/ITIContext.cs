@@ -7,13 +7,18 @@ namespace WebAppDam.Models
         public DbSet<Employee>  Employees { get; set; }
         public DbSet<Department>  Departments { get; set; }
 
+        //Way2 REgister IOC Container
+        public ITIContext(DbContextOptions<ITIContext> options) : base(options)//appsetting
+        { }
+
+        #region Way1
         public ITIContext()
         {}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=DamDB;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
         }
-
+        #endregion
         //seeding data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
