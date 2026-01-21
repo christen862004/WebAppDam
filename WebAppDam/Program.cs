@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebAppDam.Filtters;
 using WebAppDam.Models;
 using WebAppDam.Repository;
 
@@ -17,6 +18,10 @@ namespace WebAppDam
             //2) Built in service ,need to  register
 
             builder.Services.AddControllersWithViews();
+            //builder.Services.AddControllersWithViews(options =>
+            //{
+            //    options.Filters.Add(new HandelErrorAttribute());//global attribute
+            //});
             builder.Services.AddSession(sessionOption => {
                 sessionOption.IdleTimeout = TimeSpan.FromMinutes(30);
             });//
@@ -76,6 +81,10 @@ namespace WebAppDam
             app.UseSession();
 
             app.UseAuthorization();
+            //R1=>Route/MEthod1 Route Constarint
+            //app.MapControllerRoute("Route1", "R1/{age:int:range(20,60)}/{name?}", new { controller="Route" ,action="Method1" });
+            //app.MapControllerRoute("Route1", "{controller}/{action}/{id?}", new { controller="Route" ,action="Method1" });
+           // app.MapControllerRoute("Route2", "R2", new { controller="Route" ,action="Method2" });
 
             app.MapControllerRoute(
                 name: "default",
