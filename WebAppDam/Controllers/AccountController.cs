@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebAppDam.Models;
 
 namespace WebAppDam.Controllers
@@ -17,6 +19,7 @@ namespace WebAppDam.Controllers
         }
 
         #region Register
+        
         [HttpGet]//open view
         public IActionResult Register()
         {
@@ -24,7 +27,7 @@ namespace WebAppDam.Controllers
         }
         
         [HttpPost]//open view
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]//create user and assign role
         public async Task<IActionResult> Register(RegisterUserViewModel userVM)
         {
             if (ModelState.IsValid)
@@ -38,6 +41,8 @@ namespace WebAppDam.Controllers
                 IdentityResult result= await  userManager.CreateAsync(UserModel,userVM.Password);
                 if(result.Succeeded)
                 {
+                    //Assign to Admin Role
+                    await userManager.AddToRoleAsync(UserModel, "Admin");//
                     //create cookie
                     await signInManager.SignInAsync(UserModel, false);//session - presitent
                     return RedirectToAction("Index", "Employee");
@@ -71,7 +76,10 @@ namespace WebAppDam.Controllers
                     if (found)
                     {
                         //create cooke
-                        await  signInManager.SignInAsync(UserModel, userVM.RememberMe);
+                        List<Claim> addClaim = new List<Claim>();
+                        addClaim.Add(new Claim("Address", UserModel.Address));
+                        await signInManager.SignInWithClaimsAsync(UserModel, userVM.RememberMe,addClaim);//id,name,role,email 
+                        //await  signInManager.SignInAsync(UserModel, userVM.RememberMe);//id,name,role,email 
                         return RedirectToAction("Index", "Employee");
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using WebAppDam.Models;
@@ -17,6 +18,7 @@ namespace WebAppDam.Controllers
             departmentRepo =_deptRepo;// new DepartmentRepository();//depence
         }
         //Department/index
+        [Authorize(Roles ="Admin")]//check cooke - Type=Role ,value="ADmin"
         public IActionResult Index()
         {
             

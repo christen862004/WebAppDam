@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebAppDam.Filtters;
 
 namespace WebAppDam.Controllers
@@ -8,6 +9,31 @@ namespace WebAppDam.Controllers
   //  [Authorize]
     public class RouteController : Controller
     {
+        //without attribute
+        public IActionResult ShowMessage()
+        {
+            if (User.Identity.IsAuthenticated)//cookie
+            {
+                 bool iAdmin=User.IsInRole("Admin");//clims.type=="http:///role"
+
+
+                var list = User.Claims.ToList();
+                Claim idClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+               // Claim nameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                string id= idClaim.Value;
+
+                string Address = User.Claims.FirstOrDefault(c => c.Type == "Address").Value;
+                // Claim nameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                
+
+                return Content($"Welcome {User.Identity.Name} \t id={id}");
+
+            }
+            //autho welcom Ali
+            //anonums Wecome Gust
+            return Content("Welcome Gust");
+        }
+
         //[HandelError]
         //[MyAction]
         [AllowAnonymous]

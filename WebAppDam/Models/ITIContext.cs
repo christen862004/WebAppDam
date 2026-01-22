@@ -24,8 +24,9 @@ namespace WebAppDam.Models
         //seeding data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+//            base.OnModelCreating(modelBuilder);//Best
             modelBuilder.Entity<IdentityUserLogin<string>>().HasNoKey();
-            modelBuilder.Entity<IdentityUserRole<string>>().HasNoKey();
+            modelBuilder.Entity<IdentityUserRole<string>>().HasKey(new string[] { "UserId", "RoleId" });
             modelBuilder.Entity<IdentityUserToken<string>>().HasNoKey();
             modelBuilder.Entity<Department>().HasData(new Department() { Id = 1, Name ="SD",ManagerName="Ahmed"});
             modelBuilder.Entity<Department>().HasData(new Department() { Id = 2, Name ="UI",ManagerName="Mohamed"});
