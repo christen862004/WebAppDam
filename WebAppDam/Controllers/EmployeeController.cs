@@ -16,7 +16,7 @@ namespace WebAppDam.Controllers
             departmentRepo = _deptRepo;// new DepartmentRepository();
         }
         [Authorize]//Check Cookie
-        public IActionResult Index()
+        public IActionResult Index()    
         {
             List<Employee> employees = empRepo.GetAll();
             return View("Index",employees);
