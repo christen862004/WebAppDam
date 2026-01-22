@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebAppDam.Filtters;
 using WebAppDam.Models;
@@ -24,22 +25,18 @@ namespace WebAppDam
             //});
             builder.Services.AddSession(sessionOption => {
                 sessionOption.IdleTimeout = TimeSpan.FromMinutes(30);
-            });//
-
-
-
+            });
             builder.Services.AddDbContext<ITIContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });//REgsiter DbContextOption ,ITIContext paremeter Constructor
 
-            
-            
-            
-            
-            
-            
-            
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
+            {
+                option.Password.RequiredLength = 4;
+                option.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<ITIContext>();
+           
             
             //3) cutom Service and need to register
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();//register

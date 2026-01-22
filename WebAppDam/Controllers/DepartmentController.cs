@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using WebAppDam.Models;
 using WebAppDam.Repository;
@@ -12,6 +13,7 @@ namespace WebAppDam.Controllers
         IDepartmentRepository departmentRepo;
         public DepartmentController(IDepartmentRepository _deptRepo)//ask Inject
         {
+            
             departmentRepo =_deptRepo;// new DepartmentRepository();//depence
         }
         //Department/index

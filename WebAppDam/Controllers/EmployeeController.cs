@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebAppDam.Models;
 using WebAppDam.Repository;
 
@@ -14,6 +15,7 @@ namespace WebAppDam.Controllers
             empRepo = _EmpRepo;// new EmployeeRepository();
             departmentRepo = _deptRepo;// new DepartmentRepository();
         }
+        [Authorize]//Check Cookie
         public IActionResult Index()
         {
             List<Employee> employees = empRepo.GetAll();
